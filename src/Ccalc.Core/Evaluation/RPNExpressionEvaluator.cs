@@ -9,9 +9,12 @@ public class RPNExpressionEvaluator : IExpressionEvaluator
 
     private readonly OperatorFactory _operators;
 
-    public RPNExpressionEvaluator(OperatorFactory operators)
+    private readonly IMathExpressionParser _parser;
+
+    public RPNExpressionEvaluator(OperatorFactory operators, IMathExpressionParser parser)
     {
         _operators = operators;
+        _parser = parser;
     }
 
     public EvaluationResult Evaluate(string expression)
@@ -19,7 +22,7 @@ public class RPNExpressionEvaluator : IExpressionEvaluator
         if (string.IsNullOrWhiteSpace(expression))
             return EvaluationResult.CreateError("Expression can not be empty");
 
-        var tokenStack = GetTokenStack(expression.Trim());
+        var tokenStack = _parser.GetTokenStack(expression.Trim());
 
         var operandsStack = new Stack<double>();
 
@@ -27,7 +30,7 @@ public class RPNExpressionEvaluator : IExpressionEvaluator
         {
             var token = tokenStack.Pop();
 
-            if (IsOperand(token))
+            if (_parser.IsOperand(token))
             {
                 operandsStack.Push(double.Parse(token));
                 continue;
@@ -55,31 +58,5 @@ public class RPNExpressionEvaluator : IExpressionEvaluator
             return EvaluationResult.CreateError(WrongExpressionErrorMessage);
 
         return EvaluationResult.CreateSuccess(operandsStack.Pop());
-    }
-
-    /// <summary>
-    /// Определяет, является ли токен операндом, т.е. числом
-    /// </summary>
-    private bool IsOperand(string token)
-    {
-        double result = default;
-        return double.TryParse(token, out result);
-    }
-    
-    /// <summary>
-    /// Создаёт стэк, в котором самый последний токен находится на дне, 
-    /// а самый первый - на вершине
-    /// </summary>
-    /// <param name="expression">Выражение, содержащее токены</param>
-    private Stack<string> GetTokenStack(string expression)
-    {
-        var tokens = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries).Reverse();
-
-        var result = new Stack<string>();
-
-        foreach (var token in tokens)
-            result.Push(token);
-
-        return result;
     }
 }
