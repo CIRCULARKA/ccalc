@@ -5,7 +5,7 @@ public class ShuntingYardNotationConverterTests
     [Theory]
     [InlineData("1 + 2", "1 2 +")]
     [InlineData("1 - 2 / 3", "1 2 3 / -")]
-    [InlineData("(1 - 1) * (2 + 1) / 3", "1 1 - 2 1 + * 3 /")]
+    [InlineData("(1 - 1) * (2 + 1) / 3", "1 1 2 1 + - * 3 /")]
     public void ToPostfix_ValidInfixExpression_ValidPostfixExpression(string infixExpression, string expected)
     {
         // Arrange

@@ -6,7 +6,7 @@
 /// </summary>
 public class ShuntingYardNotationConverter : INotationConverter
 {
-    public string ToPostfix(string infixNotation)
+    public ConvertionResult ToPostfix(string infixNotation)
     {
         throw new NotImplementedException();
     }

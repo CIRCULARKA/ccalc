@@ -11,5 +11,5 @@ public interface INotationConverter
     /// </summary>
     /// <param name="infixNotation">Инфиксная нотация</param>
     /// <returns>Постфиксная нотация</returns>
-    public string ToPostfix(string infixNotation);
+    public ConvertionResult ToPostfix(string infixNotation);
 }
