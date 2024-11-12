@@ -1,5 +1,6 @@
-namespace Ccalc.Tests.Core;
+namespace Ccalc.Tests.Unit.Core.Evaluation;
 
+[Trait("type", "unit")]
 [Trait("category", "rpn")]
 public class RPNExpressionEvaluatorTests
 {
