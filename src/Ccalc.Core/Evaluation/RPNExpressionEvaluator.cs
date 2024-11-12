@@ -19,7 +19,7 @@ public class RPNExpressionEvaluator : IExpressionEvaluator
         if (string.IsNullOrWhiteSpace(expression))
             return EvaluationResult.CreateError("Expression can not be empty");
 
-        var tokenStack = GetTokenStack(expression);
+        var tokenStack = GetTokenStack(expression.Trim());
 
         var operandsStack = new Stack<double>();
 
@@ -73,7 +73,7 @@ public class RPNExpressionEvaluator : IExpressionEvaluator
     /// <param name="expression">Выражение, содержащее токены</param>
     private Stack<string> GetTokenStack(string expression)
     {
-        var tokens = expression.Split(' ').Reverse();
+        var tokens = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries).Reverse();
 
         var result = new Stack<string>();
 
