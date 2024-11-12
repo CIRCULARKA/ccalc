@@ -1,4 +1,4 @@
-﻿namespace Ccalc.Infrastructure;
+﻿namespace Ccalc.Core.Convertion;
 
 /// <summary>
 /// Класс для преобразования математических выражений в инфиксной
