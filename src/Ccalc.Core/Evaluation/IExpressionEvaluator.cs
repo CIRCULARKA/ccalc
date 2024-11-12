@@ -1,4 +1,4 @@
-namespace Ccalc.Core;
+namespace Ccalc.Core.Evaluation;
 
 /// <summary>
 /// Интерфейс объекта, который получает результат из математических выражений
@@ -10,5 +10,5 @@ public interface IExpressionEvaluator
     /// </summary>
     /// <param name="expression">Математическое выражение</param>
     /// <returns>Результат математического выражения</param>
-    public double Evaluate(string expression);
+    public EvaluationResult Evaluate(string expression);
 }
