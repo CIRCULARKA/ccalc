@@ -14,6 +14,8 @@ public class MathExpressionParser : IMathExpressionParser
     
     public Stack<string> GetTokenStack(string expression)
     {
+        expression = NormalizeParentheses(expression);
+
         var tokens = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries).Reverse();
 
         var result = new Stack<string>();
@@ -34,5 +36,18 @@ public class MathExpressionParser : IMathExpressionParser
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(token);
         return token == ")";
+    }
+
+    /// <summary>
+    /// Добавляет пробел после открывающих скобок и пере закрывающими,
+    /// чтобы их можно было в последствии правильно токенизировать
+    /// </summary>
+    /// <param name="expression">Математическое выражение</param>
+    private string NormalizeParentheses(string expression)
+    {
+        expression = expression.Replace("(", "( ");
+        expression = expression.Replace(")", " )");
+
+        return expression;
     }
 }
