@@ -89,10 +89,22 @@ public class ShuntingYardNotationConverter : INotationConverter
         while (operatorsStack.Any())
             result = AppendToken(result, operatorsStack.Pop());
 
+        // Если результат содержит скобки, чего не может быть в выражении RPN,
+        // то это также означает, что инфиксное выражение на входе содержит неправильные скобки
+        if (ContainsParentheses(result))
+            return ConvertionResult.CreateError(ParenthesesMismatchErrorMessage);
+
         result = result.Trim();
 
         return ConvertionResult.CreateSuccess(result);
     }
+
+    /// <summary>
+    /// Проверяет строку на наличие скобок
+    /// </summary>
+    /// <param name="value">Строка, которую надо проверить</param>
+    private bool ContainsParentheses(string value) =>
+        value.Contains('(') || value.Contains(')');
 
     /// <summary>
     /// Проверяет, есть ли на вершине стека открывающая скобка
