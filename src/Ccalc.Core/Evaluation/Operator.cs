@@ -42,6 +42,36 @@ public class Operator
     public int Precendence { get; private init; }
 
     /// <summary>
+    /// Сравнивает этот оператор с другим по значению приоритетности
+    /// </summary>
+    /// <param name="anotherOperator">Оператор для сравнения</param>
+    /// <returns>
+    /// <see langword="true" />, если этот оператор имеет большую приоритетность, 
+    /// чем <paramref name="anotherOperator" />, иначе <see langword="false" />
+    /// </returns>
+    public bool HasBiggerPrecendenceThan(Operator anotherOperator)
+    {
+        ArgumentNullException.ThrowIfNull(anotherOperator);
+
+        return this.Precendence > anotherOperator.Precendence;
+    }
+
+    /// <summary>
+    /// Сравнивает этот оператор с другим по значению приоритетности
+    /// </summary>
+    /// <param name="anotherOperator">Оператор для сравнения</param>
+    /// <returns>
+    /// <see langword="true" />, если этот оператор имеет такую же приоритетность, 
+    /// как и <paramref name="anotherOperator" />, иначе <see langword="false" />
+    /// </returns>
+    public bool HasSamePrecendenceThan(Operator anotherOperator)
+    {
+        ArgumentNullException.ThrowIfNull(anotherOperator);
+
+        return this.Precendence == anotherOperator.Precendence;
+    }
+
+    /// <summary>
     /// Порядок чтения оператора
     /// </summary>
     public OperatorAssociativity Associativity { get; private init; }
