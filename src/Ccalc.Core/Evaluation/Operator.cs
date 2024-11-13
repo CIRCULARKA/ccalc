@@ -26,6 +26,11 @@ public class Operator
         _logic = logic;
     }
 
+    /// <summary>
+    /// Строковое представление оператора
+    /// </summary>
+    public string Sign => _sign;
+
     public double Execute(double firstOperand, double secondOperand) =>
         _logic(firstOperand, secondOperand);
 
