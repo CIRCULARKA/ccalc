@@ -6,6 +6,8 @@
 /// </summary>
 public class ShuntingYardNotationConverter : INotationConverter
 {
+    private const string InvalidExpressionErrorMessage = "Invalid expression";
+
     private const string ParenthesesMismatchErrorMessage = "Parentheses mismatch";
 
     private readonly IMathExpressionParser _parser;
@@ -53,6 +55,9 @@ public class ShuntingYardNotationConverter : INotationConverter
                 var enclosedOperators = GetOperatorsInParentheses(operatorsStack);
                 if (enclosedOperators is null)
                     return ConvertionResult.CreateError(ParenthesesMismatchErrorMessage);
+
+                result = AppendToken(result, enclosedOperators);
+                continue;
             }
 
             var currentOperator = _operatorFactory.GetOperator(token);
