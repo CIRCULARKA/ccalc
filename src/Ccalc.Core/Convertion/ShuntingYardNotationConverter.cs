@@ -6,8 +6,11 @@
 /// </summary>
 public class ShuntingYardNotationConverter : INotationConverter
 {
-    public ConvertionResult ToPostfix(string infixNotation)
+    public ConvertionResult ToPostfix(string infixExpression)
     {
+        if (string.IsNullOrWhiteSpace(infixExpression))
+            ConvertionResult.CreateError("Expression can not be empty");
+
         throw new NotImplementedException();
     }
 }

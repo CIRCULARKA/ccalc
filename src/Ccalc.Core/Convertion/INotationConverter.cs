@@ -9,7 +9,7 @@ public interface INotationConverter
     /// <summary>
     /// Преобразует математическое выражение из инфиксной нотации в постфиксную
     /// </summary>
-    /// <param name="infixNotation">Инфиксная нотация</param>
+    /// <param name="infixExpression">Инфиксная нотация</param>
     /// <returns>Постфиксная нотация</returns>
-    public ConvertionResult ToPostfix(string infixNotation);
+    public ConvertionResult ToPostfix(string infixExpression);
 }
