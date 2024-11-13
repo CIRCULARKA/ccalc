@@ -77,6 +77,9 @@ public class ShuntingYardNotationConverter : INotationConverter
 
         if (IsThereOpeningParenthesisAtTheTopOf(operatorsStack))
             return ConvertionResult.CreateError(ParenthesesMismatchErrorMessage);
+
+        if (result == string.Empty)
+            return ConvertionResult.CreateError("Invalid expression");
         
         while (operatorsStack.Any())
             result = AppendToken(result, operatorsStack.Pop());
