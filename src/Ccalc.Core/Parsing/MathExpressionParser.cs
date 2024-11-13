@@ -23,4 +23,16 @@ public class MathExpressionParser : IMathExpressionParser
 
         return result;
     }
+
+    public bool IsOpeningParenthesis(string token)
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(token);
+        return token == "(";
+    }
+
+    public bool IsClosingParenthesis(string token)
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(token);
+        return token == ")";
+    }
 }

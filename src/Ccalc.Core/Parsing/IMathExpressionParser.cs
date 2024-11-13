@@ -18,4 +18,16 @@ public interface IMathExpressionParser
     /// </summary>
     /// <param name="expression">Выражение, содержащее токены</param>
     public Stack<string> GetTokenStack(string expression);
+
+    /// <summary>
+    /// Проверяет, является ли токен открывающейся скобкой
+    /// </summary>
+    /// <param name="token">Токен, который нужно проверить</param>
+    public bool IsOpeningParenthesis(string token);
+    
+    /// <summary>
+    /// Проверяет, является ли токен закрывающейся скобкой
+    /// </summary>
+    /// <param name="token">Токен, который нужно проверить</param>
+    public bool IsClosingParenthesis(string token);
 }
