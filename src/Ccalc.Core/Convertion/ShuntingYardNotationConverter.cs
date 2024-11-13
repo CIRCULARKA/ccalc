@@ -24,7 +24,7 @@ public class ShuntingYardNotationConverter : INotationConverter
     public ConvertionResult ToPostfix(string infixExpression)
     {
         if (string.IsNullOrWhiteSpace(infixExpression))
-            ConvertionResult.CreateError("Expression can not be empty");
+            return ConvertionResult.CreateError("Expression can not be empty");
 
         var tokensStack = _parser.GetTokenStack(infixExpression);
 
