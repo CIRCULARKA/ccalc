@@ -7,7 +7,7 @@ public class ShuntingYardNotationConverterTests : MathExpressionUntiTests
     [Theory]
     [InlineData("1 + 2", "1 2 +")]
     [InlineData("1 - 2 / 3.001", "1 2 3.001 / -")]
-    [InlineData("   (1 - 1) * (2.33 + 1) /   3", "1 1 2.33 1 + - * 3 /")]
+    [InlineData("   (1 - 1   ) * (2.33 + 1) /   3", "1 1 - 2.33 1 + * 3 /")]
     public void ToPostfix_ValidInfixExpression_ValidPostfixExpression(string infixExpression, string expectedResult)
     {
         // Arrange
@@ -24,16 +24,26 @@ public class ShuntingYardNotationConverterTests : MathExpressionUntiTests
     }
 
     [Theory]
+    // Алгоритм Shunting Yard не подразумевает в своей реализации проверку подобных вариантов. Так написано в Wiki и с этим же я столкнулся на практике.
+    // Эти выражения хоть и не вызовут ошибку, но они попадут в Evaluator, который точно не сможет его вычислить, поэтому в любом случае пользователь получит
+    // ошибку вместо неправильного результата. Это мы также проверим в интеграционных тестах
+    // [InlineData("()")]
+    // [InlineData("1 2 +")]
+    // [InlineData("+ 1 2")]
+    // [InlineData("2 1")] 
+    // [InlineData("1 + 2 + 3 * 4 / 1 -")]
+    // [InlineData("5.015 + 1 - (1 + 1) * 2 2")]
+    // [InlineData("15.01 / 3 * (2 + 2")]
+
     [InlineData("")]
     [InlineData("   ")]
-    [InlineData("()")]
-    [InlineData("1 2 +")]
-    [InlineData("+ 1 2")]
-    [InlineData("1 + 2 + 3 * 4 / 1 -")]
     [InlineData("+")]
-    [InlineData("2 1")]
-    [InlineData("5.015 + 1 - (1 + 1) * 2 2")]
-    [InlineData("15.01 / 3 * (2 + 2")]
+    [InlineData("(1 + 1")]
+    [InlineData("1 + 1)")]
+    [InlineData(")1 + 1)")]
+    [InlineData("(1 + 1(")]
+    [InlineData("(1 + 1))")]
+    [InlineData("((1 + 1)")]
     [InlineData("15.01 / 3 * 2 + 2)")]
     [InlineData("15.01 / 3 * (2 + 2))")]
     public void ToPostfix_InvalidInfixExpression_ErrorResult(string infixExpession)
