@@ -6,8 +6,8 @@ public class ShuntingYardNotationConverterTests : MathExpressionUntiTests
 {
     [Theory]
     [InlineData("1 + 2", "1 2 +")]
-    [InlineData("1 - 2 / 3.001", "1 2 3.001 / -       ")]
-    [InlineData("   (1 - 1) * (2.33 + 1) / 3", "1 1 2.33    1 + - * 3 /")]
+    [InlineData("1 - 2 / 3.001", "1 2 3.001 / -")]
+    [InlineData("   (1 - 1) * (2.33 + 1) /   3", "1 1 2.33 1 + - * 3 /")]
     public void ToPostfix_ValidInfixExpression_ValidPostfixExpression(string infixExpression, string expectedResult)
     {
         // Arrange
