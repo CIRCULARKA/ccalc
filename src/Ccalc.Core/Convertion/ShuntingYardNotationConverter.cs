@@ -65,8 +65,8 @@ public class ShuntingYardNotationConverter : INotationConverter
             var previousOperator = _operatorFactory.GetOperator(previousOperatorToken ?? string.Empty);
 
             // Условие построено из алгоритма, описанного на Wiki вот тут: https://en.wikipedia.org/wiki/Shunting_yard_algorithm
-            if ((previousOperator is null || previousOperator.HasBiggerPrecendenceThan(currentOperator)) ||
-                currentOperator.HasSamePrecendenceThan(previousOperator) && currentOperator.Associativity == OperatorAssociativity.Left)
+            if (previousOperator is not null && ((previousOperator.HasBiggerPrecendenceThan(currentOperator)) ||
+                currentOperator.HasSamePrecendenceThan(previousOperator) && currentOperator.Associativity == OperatorAssociativity.Left))
             {
                 var poppedPreviousOperator = operatorsStack.Pop();
                 result = AppendToken(result, poppedPreviousOperator);
