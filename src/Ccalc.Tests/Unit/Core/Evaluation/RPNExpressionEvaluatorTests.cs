@@ -2,7 +2,7 @@ namespace Ccalc.Tests.Unit.Core.Evaluation;
 
 [Trait("type", "unit")]
 [Trait("category", "rpn")]
-public class RPNExpressionEvaluatorTests
+public class RPNExpressionEvaluatorTests : MathExpressionUntiTests
 {
     /// <summary>
     /// Сколько цифр после запятой должно совпадать у ожидаемого и получившегося значений
@@ -24,7 +24,7 @@ public class RPNExpressionEvaluatorTests
     {
         // Arrange
         var parser = CreateDefaultMathExpressionParser();
-        var evaluator = CreateEvaluator(parser: parser);
+        var evaluator = CreateEvaluator(parser: parser, availableOperators: CreateBasicOperations());
         
         // Act
         var result = evaluator.Evaluate(rpnExpression);
@@ -51,7 +51,7 @@ public class RPNExpressionEvaluatorTests
     {
         // Arrange
         var parser = CreateDefaultMathExpressionParser();
-        var evaluator = CreateEvaluator(parser: parser);
+        var evaluator = CreateEvaluator(parser: parser, availableOperators: CreateBasicOperations());
         
         // Act
         var result = evaluator.Evaluate(rpnExpression);
@@ -69,7 +69,7 @@ public class RPNExpressionEvaluatorTests
     {
         // Arrange
         var parser = CreateDefaultMathExpressionParser();
-        var evaluator = CreateEvaluator(parser: parser);
+        var evaluator = CreateEvaluator(parser: parser, availableOperators: CreateBasicOperations());
         
         // Act
         var result = evaluator.Evaluate(rpnExpression);
@@ -93,14 +93,6 @@ public class RPNExpressionEvaluatorTests
     }
 
     /// <summary>
-    /// Создаёт рабочий парсер математических выражений
-    /// </summary>
-    private MathExpressionParser CreateDefaultMathExpressionParser() =>
-        new MathExpressionParser();
-
-    /// <summary>
-    /// Создаёт <see cref="RPNExpressionEvaluator" />, по умолчанию поддерживающий четыре базовых арифметических
-    /// операций: "+", "-", "*", "/"
     /// </summary>
     /// <param name="availableOperators">
     /// Список доступных для вычисления операторов. Если не указан, то
@@ -108,17 +100,10 @@ public class RPNExpressionEvaluatorTests
     /// </param>
     /// <param name="parser">Парсер. Если не указан, то будет использована заглушка</param>
     private RPNExpressionEvaluator CreateEvaluator(
-        List<Operator>? availableOperators = null,
+        List<Operator> availableOperators,
         IMathExpressionParser? parser = null)
     {
-        if (availableOperators is null)
-            availableOperators = new List<Operator>
-            {
-                new Operator("+", (a, b) => a + b),
-                new Operator("-", (a, b) => a - b),
-                new Operator("*", (a, b) => a * b),
-                new Operator("/", (a, b) => a / b)
-            };
+        ArgumentNullException.ThrowIfNull(availableOperators);
 
         if (parser is null)
             parser = new Mock<IMathExpressionParser>().Object;

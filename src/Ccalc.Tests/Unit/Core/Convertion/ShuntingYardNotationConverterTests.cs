@@ -1,8 +1,8 @@
-namespace Ccalc.Tests.Infrastructure;
+namespace Ccalc.Tests.Unit.Core.Convertion;
 
 [Trait("type", "unit")]
 [Trait("category", "yard")]
-public class ShuntingYardNotationConverterTests
+public class ShuntingYardNotationConverterTests : MathExpressionUntiTests
 {
     [Theory]
     [InlineData("1 + 2", "1 2 +")]
@@ -11,7 +11,7 @@ public class ShuntingYardNotationConverterTests
     public void ToPostfix_ValidInfixExpression_ValidPostfixExpression(string infixExpression, string expectedResult)
     {
         // Arrange
-        var converter = CreateConverter();
+        var converter = CreateConverter(CreateBasicOperations(), CreateDefaultMathExpressionParser());
 
         // Act
         var result = converter.ToPostfix(infixExpression);
@@ -38,7 +38,7 @@ public class ShuntingYardNotationConverterTests
     public void ToPostfix_InvalidInfixExpression_ErrorResult(string infixExpession)
     {
         // Arrange
-        var converter = CreateConverter();
+        var converter = CreateConverter(CreateBasicOperations(), CreateDefaultMathExpressionParser());
 
         // Act
         var result = converter.ToPostfix(infixExpession);
@@ -55,7 +55,7 @@ public class ShuntingYardNotationConverterTests
     public void ToPostfix_ValidInfixExpressionWithUnsupportedOperators_ErrorResult(string infixExpession)
     {
         // Arrange
-        var converter = CreateConverter();
+        var converter = CreateConverter(CreateBasicOperations(), CreateDefaultMathExpressionParser());
 
         // Act
         var result = converter.ToPostfix(infixExpession);
@@ -76,8 +76,18 @@ public class ShuntingYardNotationConverterTests
         Assert.False(string.IsNullOrWhiteSpace(result.ErrorMessage));
     }
 
-    private ShuntingYardNotationConverter CreateConverter()
+    /// <summary>
+    /// Создаёт конвертер
+    /// </summary>
+    /// <param name="parser">Парсер математических выражений. Заглушка, если <see langword="null" /></param>
+    /// <param name="operators">Список доступных математических операций</param>
+    private ShuntingYardNotationConverter CreateConverter(
+        List<Operator> operators,
+        IMathExpressionParser? parser = null)
     {
-        return new ShuntingYardNotationConverter();
+        if (parser is null)
+            parser = new Mock<IMathExpressionParser>().Object;
+
+        return new ShuntingYardNotationConverter(parser, new OperatorFactory(operators));
     }
 }
