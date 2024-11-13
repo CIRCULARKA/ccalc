@@ -5,8 +5,6 @@ namespace Ccalc.Core.Evaluation;
 /// </summary>
 public class Operator
 {
-    private readonly string _sign;
-
     private readonly Func<double, double, double> _logic;
 
     /// <summary>
@@ -17,19 +15,36 @@ public class Operator
     /// <exception>
     /// cref="ArgumentNullException">Если <paramref name="sign" /> или <paramref name="logic" /> равны <see langword="null" />
     /// </exception>
-    public Operator(string sign, Func<double, double, double> logic)
+    public Operator(
+        string sign,
+        int precedence,
+        OperatorAssociativity associativity,
+        Func<double, double, double> logic)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(sign);
         ArgumentNullException.ThrowIfNull(logic);
 
-        _sign = sign.ToLower().Trim();
+        Sign = sign.ToLower().Trim();
+        Precendence = precedence;
+        Associativity = associativity;
+
         _logic = logic;
     }
 
     /// <summary>
     /// Строковое представление оператора
     /// </summary>
-    public string Sign => _sign;
+    public string Sign { get; private init; }
+
+    /// <summary>
+    /// Приоритетность оператора. Имеет смысл в сравнении с другими операторами
+    /// </summary>
+    public int Precendence { get; private init; }
+
+    /// <summary>
+    /// Порядок чтения оператора
+    /// </summary>
+    public OperatorAssociativity Associativity { get; private init; }
 
     public double Execute(double firstOperand, double secondOperand) =>
         _logic(firstOperand, secondOperand);
@@ -42,6 +57,6 @@ public class Operator
     public bool IsOperator(string operatorName)
     {
         if (operatorName is null) return false;
-        return operatorName.ToLower().Trim() == _sign;
+        return operatorName.ToLower().Trim() == Sign;
     }
 }
