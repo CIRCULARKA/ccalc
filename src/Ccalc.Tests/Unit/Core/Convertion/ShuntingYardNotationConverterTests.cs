@@ -28,6 +28,7 @@ public class ShuntingYardNotationConverterTests : MathExpressionUntiTests
     [InlineData("   ")]
     [InlineData("()")]
     [InlineData("1 2 +")]
+    [InlineData("+ 1 2")]
     [InlineData("1 + 2 + 3 * 4 / 1 -")]
     [InlineData("+")]
     [InlineData("2 1")]
