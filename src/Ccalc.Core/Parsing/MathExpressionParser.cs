@@ -28,14 +28,14 @@ public class MathExpressionParser : IMathExpressionParser
 
     public bool IsOpeningParenthesis(string token)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(token);
-        return token == "(";
+        if (token is null) return false;
+        return token.Trim() == "(";
     }
 
     public bool IsClosingParenthesis(string token)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(token);
-        return token == ")";
+        if (token is null) return false;
+        return token.Trim() == ")";
     }
 
     /// <summary>
