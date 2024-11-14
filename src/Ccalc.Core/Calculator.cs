@@ -20,6 +20,13 @@ public class Calculator
 
     public EvaluationResult Evaluate(string mathExpression)
     {
-        throw new NotImplementedException();
+        var convertionResult = _notationConverter.ToPostfix(mathExpression);
+
+        if (convertionResult.IsSuccessful is false)
+            return EvaluationResult.CreateError(convertionResult.ErrorMessage ?? "");
+
+        var evaluationResult = _evaluator.Evaluate(mathExpression);
+
+        return evaluationResult;
     }
 }
