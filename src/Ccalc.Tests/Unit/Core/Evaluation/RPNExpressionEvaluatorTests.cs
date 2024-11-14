@@ -10,13 +10,30 @@ public class RPNExpressionEvaluatorTests : MathExpressionUnitTests
     public void Evaluate_ValidRPNWithUnknownOperators_ErrorResult(string rpnExpression, params string[] tokens)
     {
         // Arrange
-        var parser = new Mock<IMathExpressionParser>();
-        parser.Setup(p => p.GetTokenStack(rpnExpression)).Returns(new Stack<string>(tokens));
+        var parserStub = new Mock<IMathExpressionParser>();
+        parserStub.Setup(p => p.GetTokenStack(rpnExpression)).Returns(new Stack<string>(tokens));
 
-        var evaluator = CreateEvaluator(parser: parser.Object, availableOperators: CreateBasicOperations());
+        var evaluator = CreateEvaluator(parser: parserStub.Object, availableOperators: CreateBasicOperations());
         
         // Act
         var result = evaluator.Evaluate(rpnExpression);
+        
+        // Assert
+        CheckIfResultIsError(result);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    public void Evaluate_EmptyExpression_ErrorResult(string emptyRpn)
+    {
+        // Arrange
+        var parserStub = new Mock<IMathExpressionParser>();
+
+        var evaluator = CreateEvaluator(parser: parserStub.Object, availableOperators: CreateBasicOperations());
+        
+        // Act
+        var result = evaluator.Evaluate(emptyRpn);
         
         // Assert
         CheckIfResultIsError(result);
