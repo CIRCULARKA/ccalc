@@ -16,6 +16,7 @@ public class RPNExpressionEvaluatorTests : MathExpressionIntegrationTests
     [InlineData("7 3 *", 21)]
     [InlineData("12   4 /", 3)]
     [InlineData("4 2 3 * +", 10)]
+    [InlineData("0.5 -2.5 -3 * +", 8)]
     [InlineData("8 3 2 + *", 40)]
     [InlineData("10 5 2 - /", 3.3333333)]
     [InlineData("9 2 +   3 *", 33)]
@@ -47,6 +48,8 @@ public class RPNExpressionEvaluatorTests : MathExpressionIntegrationTests
     [InlineData("/")]
     [InlineData("1 1")]
     [InlineData("1 1 1")]
+    [InlineData("1 1 + 1")]
+    [InlineData("1 1 + 1 + +")]
     public void Evaluate_InvalidRPNWithKnownOperatorsExpression_ErrorResult(string rpnExpression)
     {
         // Arrange
