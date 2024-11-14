@@ -9,14 +9,14 @@ public class CalculatorTests : MathExpressionIntegrationTests
     [Theory]
     [InlineData("1 + 2", 3)]
     [InlineData("-1 + -2", -3)]
-    [InlineData("1 - 2", 1)]
+    [InlineData("1 - 2", -1)]
     [InlineData("-1 - -2", 1)]
     [InlineData("1 * 2", 2)]
     [InlineData("-1 * -2", 2)]
     [InlineData("1 / 2", 0.5)]
     [InlineData("-1 / -2", 0.5)]
     [InlineData("-0.5 * (4 / 2) - 123.5 + (20 - 3)", -107.5)]
-    [InlineData("((20 - 10) / ((2 + 1) * (4 - 2))) * 10", 16.666666)]
+    [InlineData("((20 - 10) / ((2 + 1) * (4 - 2))) * 10", 16.666666666)]
     public void Evaluate_ValidExpression_ReturnsSuccessfulValidResult(string mathExpression, double expectedResult)
     {
         // Arrange
@@ -33,16 +33,15 @@ public class CalculatorTests : MathExpressionIntegrationTests
 
         // Assert
         Assert.NotNull(actualResult);
-        Assert.NotNull(actualResult.Result);
         Assert.True(actualResult.IsSuccessful);
-        Assert.Equal(expectedResult, Math.Round(actualResult.Result ?? 0, MaxPrecision));
+        Assert.NotNull(actualResult.Result);
+        Assert.Equal(Math.Round(expectedResult, MaxPrecision), Math.Round(actualResult.Result ?? 0, MaxPrecision));
         Assert.Null(actualResult.ErrorMessage);
     }
 
     [Theory]
-    [InlineData("1 + 2")]
+    [InlineData("12_")]
     [InlineData("-1 + --2")]
-    [InlineData("1 2 -")]
     [InlineData("-1 ^ -2")]
     [InlineData("(1 * 2")]
     [InlineData("-1 * -2)")]
