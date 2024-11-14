@@ -25,7 +25,7 @@ public class Calculator
         if (convertionResult.IsSuccessful is false)
             return EvaluationResult.CreateError(convertionResult.ErrorMessage ?? "");
 
-        var evaluationResult = _evaluator.Evaluate(mathExpression);
+        var evaluationResult = _evaluator.Evaluate(convertionResult.Result ?? "");
 
         return evaluationResult;
     }

@@ -8,7 +8,9 @@ public class CalculatorTests
     public void Evaluate_WhenCalled_ConvertsInfixToPostfix()
     {
         // Arrange
+        var convertionSuccessResult = ConvertionResult.CreateSuccess("nevermind");
         var converterMock = new Mock<INotationConverter>();
+        converterMock.Setup(c => c.ToPostfix(It.IsAny<string>())).Returns(convertionSuccessResult);
         
         var calc = CreateCalculator(converter: converterMock.Object);
 
@@ -24,8 +26,12 @@ public class CalculatorTests
     {
         // Arrange
         var evaluatorMock = new Mock<IExpressionEvaluator>();
+        var convertionSuccessResult = ConvertionResult.CreateSuccess("nevermind");
         
-        var calc = CreateCalculator(evaluator: evaluatorMock.Object);
+        var converterStub = new Mock<INotationConverter>();
+        converterStub.Setup(c => c.ToPostfix(It.IsAny<string>())).Returns(convertionSuccessResult);
+        
+        var calc = CreateCalculator(evaluator: evaluatorMock.Object, converter: converterStub.Object);
 
         // Act
         var result = calc.Evaluate("nevermind");
@@ -60,11 +66,14 @@ public class CalculatorTests
     {
         // Arrange
         var evaluationErrorResult = EvaluationResult.CreateError("Evaluation error");
+
+        var converterStub = new Mock<INotationConverter>();
+        converterStub.Setup(c => c.ToPostfix(It.IsAny<string>())).Returns(ConvertionResult.CreateSuccess("nevermind"));
         
         var evaluatorStub = new Mock<IExpressionEvaluator>();
         evaluatorStub.Setup(c => c.Evaluate(It.IsAny<string>())).Returns(evaluationErrorResult);
         
-        var calc = CreateCalculator(evaluator: evaluatorStub.Object);
+        var calc = CreateCalculator(evaluator: evaluatorStub.Object, converter: converterStub.Object);
 
         // Act
         var actualResult = calc.Evaluate("nevermind");
