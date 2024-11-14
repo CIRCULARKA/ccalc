@@ -12,8 +12,8 @@ public class MathExpressionParserTests
     [InlineData("-1x", false)]
     [InlineData("1 1", false)]
     [InlineData("+", false)]
-    [InlineData(null, true)]
-    [InlineData("", true)]
+    [InlineData(null, false)]
+    [InlineData("", false)]
     public void IsOperand_AnyToken_ExpectedResult(string token, bool expectedResult)
     {
         // Arrange
