@@ -1,4 +1,4 @@
-namespace Ccalc.Core.Evaluation;
+namespace Ccalc.Core.Common;
 
 /// <summary>
 /// Порядок чтения математических операторов
