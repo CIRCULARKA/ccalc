@@ -12,15 +12,15 @@ public class ShuntingYardNotationConverter : INotationConverter
 
     private readonly IMathExpressionParser _parser;
 
-    private readonly OperatorFactory _operatorFactory;
+    private readonly List<Operator> _supportedOperators;
 
-    public ShuntingYardNotationConverter(IMathExpressionParser parser, OperatorFactory operatorFactory)
+    public ShuntingYardNotationConverter(IMathExpressionParser parser, List<Operator> operatorFactory)
     {
         ArgumentNullException.ThrowIfNull(parser);
         ArgumentNullException.ThrowIfNull(operatorFactory);
 
         _parser = parser;
-        _operatorFactory = operatorFactory;
+        _supportedOperators = operatorFactory;
     }
 
     public ConvertionResult ToPostfix(string infixExpression)
@@ -60,14 +60,14 @@ public class ShuntingYardNotationConverter : INotationConverter
                 continue;
             }
 
-            var currentOperator = _operatorFactory.GetOperator(token);
+            var currentOperator = _supportedOperators.FirstOrDefault(o => o.IsOperator(token));
             if (currentOperator is null)
                 return ConvertionResult.CreateError($"Operator \"{token}\" is not supported");
 
             string? previousOperatorToken = null;
             operatorsStack.TryPeek(out previousOperatorToken);
 
-            var previousOperator = _operatorFactory.GetOperator(previousOperatorToken ?? string.Empty);
+            var previousOperator = _supportedOperators.FirstOrDefault(o => o.IsOperator(previousOperatorToken ?? string.Empty));
 
             // Условие построено из алгоритма, описанного на Wiki вот тут: https://en.wikipedia.org/wiki/Shunting_yard_algorithm
             if (previousOperator is not null && ((previousOperator.HasBiggerPrecendenceThan(currentOperator)) ||

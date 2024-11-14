@@ -1,8 +1,8 @@
-namespace Ccalc.Tests.Unit.Core.Convertion;
+namespace Ccalc.Tests.Integration.Core.Convertion;
 
-[Trait("type", "unit")]
+[Trait("type", "integration")]
 [Trait("category", "yard")]
-public class ShuntingYardNotationConverterTests : MathExpressionUntiTests
+public class ShuntingYardNotationConverterTests : MathExpressionIntegrationTests
 {
     [Theory]
     [InlineData("1 + 2", "1 2 +")]
@@ -94,11 +94,11 @@ public class ShuntingYardNotationConverterTests : MathExpressionUntiTests
     /// <param name="operators">Список доступных математических операций</param>
     private ShuntingYardNotationConverter CreateConverter(
         List<Operator> operators,
-        IMathExpressionParser? parser = null)
+        IMathExpressionParser parser)
     {
-        if (parser is null)
-            parser = new Mock<IMathExpressionParser>().Object;
+        ArgumentNullException.ThrowIfNull(operators);
+        ArgumentNullException.ThrowIfNull(parser);
 
-        return new ShuntingYardNotationConverter(parser, new OperatorFactory(operators));
+        return new ShuntingYardNotationConverter(parser, operators);
     }
 }
