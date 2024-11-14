@@ -18,7 +18,7 @@ public class Calculator
         _evaluator = evaluator;
     }
 
-    public double Evaluate(string mathExpression)
+    public EvaluationResult Evaluate(string mathExpression)
     {
         throw new NotImplementedException();
     }

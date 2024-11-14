@@ -1,7 +1,7 @@
 namespace Ccalc.Tests.Unit.Core;
 
 [Trait("type", "unit")]
-[Trait("category", "caclulator")]
+[Trait("category", "calculator")]
 public class CalculatorTests
 {
     [Fact]
