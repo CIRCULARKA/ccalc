@@ -30,7 +30,7 @@ public class MathExpressionParserTests
     [InlineData(") ", true)]
     [InlineData(" )", true)]
     [InlineData(" ) ", true)]
-    [InlineData(")", false)]
+    [InlineData("(", false)]
     [InlineData("x", false)]
     [InlineData("", false)]
     [InlineData(null, false)]
@@ -40,7 +40,7 @@ public class MathExpressionParserTests
         var parser = new MathExpressionParser();
 
         // Act
-        var actualResult = parser.IsOpeningParenthesis(token);
+        var actualResult = parser.IsClosingParenthesis(token);
 
         // Assert
         Assert.Equal(expectedResult, actualResult);
