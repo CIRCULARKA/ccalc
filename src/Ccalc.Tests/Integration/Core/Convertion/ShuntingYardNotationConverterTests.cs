@@ -99,6 +99,6 @@ public class ShuntingYardNotationConverterTests : MathExpressionIntegrationTests
         ArgumentNullException.ThrowIfNull(operators);
         ArgumentNullException.ThrowIfNull(parser);
 
-        return new ShuntingYardNotationConverter(parser, operators);
+        return new ShuntingYardNotationConverter(parser: parser, operators: operators);
     }
 }

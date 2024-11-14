@@ -97,5 +97,5 @@ public class CalculatorTests : MathExpressionIntegrationTests
     private ShuntingYardNotationConverter CreateShuntingYardConverter(
         IMathExpressionParser parser, 
         List<Operator> supportedOperations) =>
-        new ShuntingYardNotationConverter(parser, supportedOperations);
+        new ShuntingYardNotationConverter(parser: parser, operators: supportedOperations);
 }

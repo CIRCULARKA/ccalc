@@ -14,13 +14,13 @@ public class ShuntingYardNotationConverter : INotationConverter
 
     private readonly List<Operator> _supportedOperators;
 
-    public ShuntingYardNotationConverter(IMathExpressionParser parser, List<Operator> operatorFactory)
+    public ShuntingYardNotationConverter(List<Operator> operators, IMathExpressionParser parser)
     {
         ArgumentNullException.ThrowIfNull(parser);
-        ArgumentNullException.ThrowIfNull(operatorFactory);
+        ArgumentNullException.ThrowIfNull(operators);
 
         _parser = parser;
-        _supportedOperators = operatorFactory;
+        _supportedOperators = operators;
     }
 
     public ConvertionResult ToPostfix(string infixExpression)
