@@ -5,6 +5,28 @@ namespace Ccalc.Tests.Unit.Core.Parsing;
 public class MathExpressionParserTests
 {
     [Theory]
+    [InlineData("1", true)]
+    [InlineData("-1", true)]
+    [InlineData("501249.0102492", true)]
+    [InlineData("-501249.0102492", true)]
+    [InlineData("-1x", false)]
+    [InlineData("1 1", false)]
+    [InlineData("+", false)]
+    [InlineData(null, true)]
+    [InlineData("", true)]
+    public void IsOperand_AnyToken_ExpectedResult(string token, bool expectedResult)
+    {
+        // Arrange
+        var parser = new MathExpressionParser();
+
+        // Act
+        var actualResult = parser.IsOperand(token);
+
+        // Assert
+        Assert.Equal(expectedResult, actualResult);
+    }
+
+    [Theory]
     [InlineData("(", true)]
     [InlineData("( ", true)]
     [InlineData(" (", true)]
@@ -13,7 +35,7 @@ public class MathExpressionParserTests
     [InlineData(")", false)]
     [InlineData("x", false)]
     [InlineData(null, false)]
-    public void IsOpeningParenthesis_AnyToken_ExpectedOutput(string token, bool expectedResult)
+    public void IsOpeningParenthesis_AnyToken_ExpectedResult(string token, bool expectedResult)
     {
         // Arrange
         var parser = new MathExpressionParser();
@@ -34,7 +56,7 @@ public class MathExpressionParserTests
     [InlineData("x", false)]
     [InlineData("", false)]
     [InlineData(null, false)]
-    public void IsClosingParenthesis_AnyToken_ExpectedOutput(string token, bool expectedResult)
+    public void IsClosingParenthesis_AnyToken_ExpectedResult(string token, bool expectedResult)
     {
         // Arrange
         var parser = new MathExpressionParser();
