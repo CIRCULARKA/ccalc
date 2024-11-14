@@ -1,5 +1,8 @@
 ﻿if (args.Any() is false)
+{
     Console.WriteLine("Usage: ccalc <expression>");
+    return;
+}
 
 var supportedOperations = new List<Operator>
 {
