@@ -14,11 +14,14 @@ public class MathExpressionParser : IMathExpressionParser
     
     public Stack<string> GetTokenStack(string expression)
     {
+        var result = new Stack<string>();
+
+        if (string.IsNullOrWhiteSpace(expression))
+            return result;
+
         expression = NormalizeParentheses(expression);
 
         var tokens = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries).Reverse();
-
-        var result = new Stack<string>();
 
         foreach (var token in tokens)
             result.Push(token);
