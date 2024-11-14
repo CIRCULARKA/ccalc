@@ -7,13 +7,24 @@ public class RPNExpressionEvaluator : IExpressionEvaluator
 {
     private const string WrongExpressionErrorMessage = "The expression is in wrong format";
 
-    private readonly OperatorFactory _operators;
+    private readonly List<Operator> _supportedOperators;
 
     private readonly IMathExpressionParser _parser;
 
-    public RPNExpressionEvaluator(OperatorFactory operators, IMathExpressionParser parser)
+    /// <summary>
+    /// Создаёт экземпляр класса
+    /// </summary>
+    /// <param name="parser">Парсер, разбивающий выражения на токены</param>
+    /// <param name="supportedOperators">Список поддерживаемых математических операций</param>
+    public RPNExpressionEvaluator(List<Operator> supportedOperators, IMathExpressionParser parser)
     {
-        _operators = operators;
+        ArgumentNullException.ThrowIfNull(supportedOperators);
+        ArgumentNullException.ThrowIfNull(parser);
+
+        if (supportedOperators.Any() is false)
+            throw new ArgumentException("Supported operators list is empty", nameof(supportedOperators));
+
+        _supportedOperators = supportedOperators;
         _parser = parser;
     }
 
@@ -36,7 +47,7 @@ public class RPNExpressionEvaluator : IExpressionEvaluator
                 continue;
             }
 
-            var @operator = _operators.GetOperator(token);
+            var @operator = _supportedOperators.FirstOrDefault(o => o.IsOperator(token));
             if (@operator is null)
                 return EvaluationResult.CreateError($"Operation \"{token}\" is not supported");
 
